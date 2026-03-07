@@ -1,16 +1,29 @@
-# AWS Product Price Change Audit
+# AWS Price Change Audit
 
-Small learning project implementing an event-driven architecture on AWS.
-
-## Architecture
-
-Client -> API Gateway -> Lambda -> SQS -> Lambda -> DynamoDB
+Project implementing a small event-driven architecture on AWS.
 
 ## Goal
 
-Practice AWS serverless services:
+Practice core AWS serverless services:
 
 - API Gateway
 - Lambda
 - SQS
 - DynamoDB
+
+## Architecture
+
+Client -> API Gateway -> Lambda -> SQS -> Lambda -> DynamoDB
+
+## Flow
+
+1. Client submits price change request
+2. API publishes event to SQS
+3. Lambda processes event
+4. Event is stored in DynamoDB as audit history
+5. Client can retrieve price change history
+
+## Endpoints
+
+POST /products/{productId}/price-changes  
+GET /products/{productId}/price-history
