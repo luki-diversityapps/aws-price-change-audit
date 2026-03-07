@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v20.0/dist
+
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/NetworkingContentDelivery/APIGateway.puml
+!include AWSPuml/ApplicationIntegration/SimpleQueueService.puml
+!include AWSPuml/Compute/Lambda.puml
+!include AWSPuml/Database/DynamoDB.puml
+!include AWSPuml/General/Users.puml
+
+Users(user, "Client", "")
+APIGateway(api, "API Gateway", "")
+Lambda(submit, "Submit Lambda", "")
+SimpleQueueService(queue, "SQS Queue", "")
+Lambda(process, "Process Lambda", "")
+DynamoDB(db, "DynamoDB", "")
+
+user --> api
+api --> submit
+submit --> queue
+queue --> process
+process --> db
+
+@enduml

@@ -12,24 +12,7 @@ Practice core AWS serverless services:
 - DynamoDB
 
 ## Architecture
-
-```mermaid
-flowchart LR
-    Client[Client]
-    APIGW[API Gateway]
-    Submit[Lambda submit]
-    Queue[SQS]
-    Process[Lambda process]
-    DB[DynamoDB]
-
-    Client --> APIGW
-    APIGW --> Submit
-    Submit --> Queue
-    Queue --> Process
-    Process --> DB
-    
-    
-```
+![Architecture](docs/architecture.png)
 
 ## Flow
 
