@@ -1,0 +1,84 @@
+name: ProductPriceChanged
+description: Event emitted when a product price is changed.
+version: 1
+
+payload:
+  type: object
+  required:
+    - eventId
+    - eventType
+    - eventVersion
+    - occurredAt
+    - productId
+    - oldPrice
+    - newPrice
+    - changedBy
+
+  properties:
+    eventId:
+      type: string
+      description: Unique identifier of the event instance
+      example: evt-3a41d6d0-7a3f-4c7e-8c75-3d2c1a8d0b2e
+
+    eventType:
+      type: string
+      description: Type of the event
+      example: PRODUCT_PRICE_CHANGED
+
+    eventVersion:
+      type: integer
+      description: Version of the event schema
+      example: 1
+
+    occurredAt:
+      type: string
+      format: date-time
+      description: Time when the price change happened
+      example: 2026-03-08T18:00:00Z
+
+    productId:
+      type: string
+      description: Identifier of the product
+      example: PROD-123
+
+    oldPrice:
+      type: object
+      description: Previous product price
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: number
+          description: Previous price amount
+          example: 199.99
+        currency:
+          type: string
+          description: Currency code of the previous price
+          example: PLN
+
+    newPrice:
+      type: object
+      description: New product price
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: number
+          description: New price amount
+          example: 179.99
+        currency:
+          type: string
+          description: Currency code of the new price
+          example: PLN
+
+    changedBy:
+      type: string
+      description: User or system that triggered the price change
+      example: admin-user
+
+    reason:
+      type: string
+      description: Optional reason for the change
+      example: spring-promo
