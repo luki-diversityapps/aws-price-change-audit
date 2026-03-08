@@ -129,7 +129,7 @@ Schema definition:
 
 ## Endpoints
 ### Submit price change
-text POST /products/{productId}/price-changes  
+Endpoint: `POST /products/{productId}/price-changes`
 
 ### Get price history
-GET /products/{productId}/price-history
+Endpoint: `GET /products/{productId}/price-history`
