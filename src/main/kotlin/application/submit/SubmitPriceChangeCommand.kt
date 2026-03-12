@@ -14,7 +14,7 @@ data class SubmitPriceChangeCommand(
         require(oldPrice.currency == newPrice.currency) {
             "Price change must be in the same currency"
         }
-        require(oldPrice.amount != newPrice.amount) {
+        require(oldPrice.amount.compareTo(newPrice.amount) != 0) {
             "Price change must be different"
         }
         require(changedBy.isNotBlank()) { "ChangedBy cannot be blank" }
