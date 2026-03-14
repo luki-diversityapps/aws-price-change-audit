@@ -2,42 +2,19 @@ package io.github.lukidiversityapps.pricechangeaudit.application.pricechange.sub
 
 import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.pricechange.PublishPriceChangeEventPort
 import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.time.CurrentTimePort
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.common.UserId
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.money.CurrencyCode
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.money.Money
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.PriceChangeReason
+import io.github.lukidiversityapps.pricechangeaudit.application.pricechange.submit.SubmitPriceChangeCommandFixture.createSubmitPriceChangeCommand
 import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.PriceChanged
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.ProductId
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.math.BigDecimal
 import java.time.Instant
 
 class SubmitPriceChangeHandlerTest {
     @Test
-    fun `should publish price changed event built from command`() {
+    fun `should publish PriceChanged event from command data`() {
         val publishedEvents = mutableListOf<PriceChanged>()
-        val publishPriceChangeEventPort =
-            PublishPriceChangeEventPort { event ->
-                publishedEvents += event
-            }
         val currentTime = Instant.parse("2026-03-14T10:15:30Z")
-        val currentTimePort = CurrentTimePort { currentTime }
-        val handler =
-            SubmitPriceChangeHandler(
-                publishPriceChangeEventPort = publishPriceChangeEventPort,
-                currentTimePort = currentTimePort,
-            )
-        val command =
-            SubmitPriceChangeCommand(
-                productId = ProductId("product-123"),
-                oldPrice = Money.of(BigDecimal("100.00"), CurrencyCode.of("PLN")),
-                newPrice = Money.of(BigDecimal("150.00"), CurrencyCode.of("PLN")),
-                changedBy = UserId.of("user-123"),
-                reason = PriceChangeReason.of("seasonal promotion"),
-            )
+        val handler = createSubmitPriceChangeHandler(publishedEvents = publishedEvents, currentTime = currentTime)
+        val command = createSubmitPriceChangeCommand()
 
         handler.handle(command)
 
@@ -56,31 +33,30 @@ class SubmitPriceChangeHandlerTest {
     }
 
     @Test
-    fun `should publish price changed event with null reason`() {
+    fun `should publish PriceChanged event with null reason when command reason is null`() {
         val publishedEvents = mutableListOf<PriceChanged>()
-        val publishPriceChangeEventPort =
-            PublishPriceChangeEventPort { event ->
-                publishedEvents += event
-            }
-        val currentTime = Instant.parse("2026-03-14T10:15:30Z")
-        val currentTimePort = CurrentTimePort { currentTime }
-        val handler =
-            SubmitPriceChangeHandler(
-                publishPriceChangeEventPort = publishPriceChangeEventPort,
-                currentTimePort = currentTimePort,
-            )
-        val command =
-            SubmitPriceChangeCommand(
-                productId = ProductId("product-123"),
-                oldPrice = Money.of(BigDecimal("100.00"), CurrencyCode.of("PLN")),
-                newPrice = Money.of(BigDecimal("150.00"), CurrencyCode.of("PLN")),
-                changedBy = UserId.of("user-123"),
-                reason = null,
-            )
+        val handler = createSubmitPriceChangeHandler(publishedEvents = publishedEvents)
+        val command = createSubmitPriceChangeCommand(reason = null)
 
         handler.handle(command)
 
         val event = publishedEvents.single()
-        assertEquals(null, event.reason)
+        assertNull(event.reason)
+    }
+
+    private fun createSubmitPriceChangeHandler(
+        publishedEvents: MutableList<PriceChanged>,
+        currentTime: Instant = Instant.parse("2026-03-14T10:15:30Z"),
+    ): SubmitPriceChangeHandler {
+        val publishPriceChangeEventPort =
+            PublishPriceChangeEventPort { event ->
+                publishedEvents += event
+            }
+        val currentTimePort = CurrentTimePort { currentTime }
+
+        return SubmitPriceChangeHandler(
+            publishPriceChangeEventPort = publishPriceChangeEventPort,
+            currentTimePort = currentTimePort,
+        )
     }
 }
