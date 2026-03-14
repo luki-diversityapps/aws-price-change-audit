@@ -4,7 +4,7 @@ import io.github.lukidiversityapps.pricechangeaudit.domain.model.common.UserId
 import io.github.lukidiversityapps.pricechangeaudit.domain.model.money.Money
 import java.time.Instant
 
-data class PriceChanged(
+data class ProductPriceChanged(
     val eventId: EventId,
     val occurredAt: Instant,
     val productId: ProductId,

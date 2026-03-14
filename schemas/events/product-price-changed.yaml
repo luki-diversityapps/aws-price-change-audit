@@ -20,16 +20,6 @@ payload:
       description: Unique identifier of the event instance
       example: evt-3a41d6d0-7a3f-4c7e-8c75-3d2c1a8d0b2e
 
-    eventType:
-      type: string
-      description: Type of the event
-      example: PRODUCT_PRICE_CHANGED
-
-    eventVersion:
-      type: integer
-      description: Version of the event schema
-      example: 1
-
     occurredAt:
       type: string
       format: date-time

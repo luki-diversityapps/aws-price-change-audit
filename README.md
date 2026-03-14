@@ -84,7 +84,7 @@ Trade-offs:
 
 ### Eventual Consistency
 
-The system uses asynchronous processing through SQS.  
+The system uses asynchronous processing through SQS.
 When a price change is submitted, the API accepts the request and publishes an event to the queue.
 
 The actual database update happens later when the processing Lambda consumes the message.
@@ -110,8 +110,6 @@ Schema definition:
 ```json
 {
   "eventId": "evt-3a41d6d0-7a3f-4c7e-8c75-3d2c1a8d0b2e",
-  "eventType": "PRODUCT_PRICE_CHANGED",
-  "eventVersion": 1,
   "occurredAt": "2026-03-08T18:00:00Z",
   "productId": "PROD-123",
   "oldPrice": {

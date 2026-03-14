@@ -4,7 +4,7 @@ import io.github.lukidiversityapps.pricechangeaudit.application.port.inbound.Sub
 import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.pricechange.PublishPriceChangeEventPort
 import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.time.CurrentTimePort
 import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.EventId
-import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.PriceChanged
+import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.ProductPriceChanged
 
 class SubmitPriceChangeHandler(
     private val publishPriceChangeEventPort: PublishPriceChangeEventPort,
@@ -12,7 +12,7 @@ class SubmitPriceChangeHandler(
 ) : SubmitPriceChangeUseCase {
     override fun handle(command: SubmitPriceChangeCommand) {
         publishPriceChangeEventPort.publish(
-            PriceChanged(
+            ProductPriceChanged(
                 eventId = EventId.random(),
                 occurredAt = currentTimePort.now(),
                 productId = command.productId,
