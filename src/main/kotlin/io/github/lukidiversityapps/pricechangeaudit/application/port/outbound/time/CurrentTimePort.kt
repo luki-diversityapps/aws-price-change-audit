@@ -2,6 +2,6 @@ package io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.t
 
 import java.time.Instant
 
-interface CurrentTimePort {
+fun interface CurrentTimePort {
     fun now(): Instant
 }
