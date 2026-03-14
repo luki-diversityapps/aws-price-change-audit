@@ -3,9 +3,7 @@ package io.github.luki84.pricechangeaudit.application.pricechange.submit
 import io.github.luki84.pricechangeaudit.application.port.inbound.SubmitPriceChangeUseCase
 import io.github.luki84.pricechangeaudit.application.port.outbound.pricechange.PublishPriceChangeEventPort
 import io.github.luki84.pricechangeaudit.application.port.outbound.time.CurrentTimePort
-import io.github.luki84.pricechangeaudit.domain.model.common.UserId
 import io.github.luki84.pricechangeaudit.domain.model.pricechange.EventId
-import io.github.luki84.pricechangeaudit.domain.model.pricechange.PriceChangeReason
 import io.github.luki84.pricechangeaudit.domain.model.pricechange.PriceChanged
 
 class SubmitPriceChangeHandler(
@@ -21,8 +19,8 @@ class SubmitPriceChangeHandler(
                 productId = command.productId,
                 oldPrice = command.oldPrice,
                 newPrice = command.newPrice,
-                changedBy = UserId.of(command.changedBy),
-                reason = command.reason?.let { PriceChangeReason.of(it) },
+                changedBy = command.changedBy,
+                reason = command.reason,
             ),
         )
     }

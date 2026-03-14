@@ -1,7 +1,5 @@
 package io.github.luki84.pricechangeaudit.domain.model.money
 
-import io.github.luki84.pricechangeaudit.domain.model.money.CurrencyCode
-import io.github.luki84.pricechangeaudit.domain.model.money.Money
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -24,17 +22,9 @@ class MoneyTest {
     }
 
     @Test
-    fun `should not create money with zero amount`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Money.of(BigDecimal("0.0"), CurrencyCode.of("PLN"))
-        }
-    }
-
-    @Test
-    fun `should not create money with more than 2 decimal places`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Money.of(BigDecimal("100.000"), CurrencyCode.of("PLN"))
-        }
+    fun `should round money with more than 2 decimal places`() {
+        val money = Money.of(BigDecimal("100.007"), CurrencyCode.of("PLN"))
+        assertEquals(BigDecimal("100.01"), money.amount)
     }
 
     @Test

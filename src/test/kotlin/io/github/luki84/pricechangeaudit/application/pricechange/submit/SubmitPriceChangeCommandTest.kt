@@ -1,10 +1,12 @@
 package io.github.luki84.pricechangeaudit.application.pricechange.submit
 
-import io.github.luki84.pricechangeaudit.application.pricechange.submit.SubmitPriceChangeCommand
+import io.github.luki84.pricechangeaudit.domain.model.common.UserId
 import io.github.luki84.pricechangeaudit.domain.model.money.CurrencyCode
 import io.github.luki84.pricechangeaudit.domain.model.money.Money
+import io.github.luki84.pricechangeaudit.domain.model.pricechange.PriceChangeReason
 import io.github.luki84.pricechangeaudit.domain.model.pricechange.ProductId
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
@@ -41,19 +43,12 @@ class SubmitPriceChangeCommandTest {
         }
     }
 
-    @Test
-    fun `should throw exception if changedBy is blank`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            createSubmitPriceChangeCommand(changedBy = " ")
-        }
-    }
-
     private fun createSubmitPriceChangeCommand(
         productId: ProductId = ProductId("123"),
         oldPrice: Money = Money.of(BigDecimal("100.00"), CurrencyCode.of("PLN")),
         newPrice: Money = Money.of(BigDecimal("150.00"), CurrencyCode.of("PLN")),
-        changedBy: String = "user",
-        reason: String? = "reason",
+        changedBy: UserId = UserId.of("user"),
+        reason: PriceChangeReason? = PriceChangeReason.of("reason"),
     ): SubmitPriceChangeCommand =
         SubmitPriceChangeCommand(
             productId = productId,
