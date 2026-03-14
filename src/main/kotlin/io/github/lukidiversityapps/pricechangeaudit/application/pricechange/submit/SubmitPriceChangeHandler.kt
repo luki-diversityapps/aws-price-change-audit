@@ -14,7 +14,6 @@ class SubmitPriceChangeHandler(
         publishPriceChangeEventPort.publish(
             PriceChanged(
                 eventId = EventId.random(),
-                eventVersion = PriceChanged.VERSION,
                 occurredAt = currentTimePort.now(),
                 productId = command.productId,
                 oldPrice = command.oldPrice,

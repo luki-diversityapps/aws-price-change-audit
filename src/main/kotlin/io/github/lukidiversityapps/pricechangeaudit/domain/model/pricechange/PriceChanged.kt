@@ -6,7 +6,6 @@ import java.time.Instant
 
 data class PriceChanged(
     val eventId: EventId,
-    val eventVersion: Int,
     val occurredAt: Instant,
     val productId: ProductId,
     val oldPrice: Money,
@@ -14,6 +13,8 @@ data class PriceChanged(
     val changedBy: UserId,
     val reason: PriceChangeReason?,
 ) {
+    val eventVersion: Int = VERSION
+
     companion object {
         const val VERSION = 1
     }
