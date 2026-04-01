@@ -2,6 +2,6 @@ package io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.p
 
 import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.ProductPriceChanged
 
-fun interface PublishPriceChangeEventPort {
+fun interface PriceChangeEventPublisher {
     fun publish(event: ProductPriceChanged)
 }

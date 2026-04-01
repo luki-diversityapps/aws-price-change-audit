@@ -1,6 +1,6 @@
 package io.github.lukidiversityapps.pricechangeaudit.application.pricechange.submit
 
-import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.pricechange.PublishPriceChangeEventPort
+import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.pricechange.PriceChangeEventPublisher
 import io.github.lukidiversityapps.pricechangeaudit.application.port.outbound.time.CurrentTimePort
 import io.github.lukidiversityapps.pricechangeaudit.application.pricechange.submit.SubmitPriceChangeCommandFixture.createSubmitPriceChangeCommand
 import io.github.lukidiversityapps.pricechangeaudit.domain.model.pricechange.ProductPriceChanged
@@ -48,14 +48,14 @@ class SubmitPriceChangeHandlerTest {
         publishedEvents: MutableList<ProductPriceChanged>,
         currentTime: Instant = Instant.parse("2026-03-14T10:15:30Z"),
     ): SubmitPriceChangeHandler {
-        val publishPriceChangeEventPort =
-            PublishPriceChangeEventPort { event ->
+        val priceChangeEventPublisher =
+            PriceChangeEventPublisher { event ->
                 publishedEvents += event
             }
         val currentTimePort = CurrentTimePort { currentTime }
 
         return SubmitPriceChangeHandler(
-            publishPriceChangeEventPort = publishPriceChangeEventPort,
+            priceChangeEventPublisher = priceChangeEventPublisher,
             currentTimePort = currentTimePort,
         )
     }

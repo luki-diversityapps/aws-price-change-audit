@@ -11,6 +11,14 @@ repositories {
 }
 
 dependencies {
+    implementation("tools.jackson.core:jackson-databind:3.1.0")
+    implementation("tools.jackson.module:jackson-module-kotlin:3.1.0")
+
+    implementation(platform("software.amazon.awssdk:bom:2.25.50"))
+    implementation("software.amazon.awssdk:sqs")
+    implementation("software.amazon.awssdk:auth")
+    implementation("software.amazon.awssdk:regions")
+
     testImplementation(kotlin("test"))
 }
 
